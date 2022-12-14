@@ -1,0 +1,69 @@
+<!-- Login EJS template -->
+
+<html>
+<head>
+    <%- include('partials/head.ejs',
+    {
+    pageTitle: 'Login',
+    pageDescription: 'Login to access your servers'
+    }) %>
+</head>
+<body class="bg-gray-100 text-gray-900">
+<div class="min-h-screen flex justify-center bg-gray-50 py-6 px-4 sm:px-6 lg:px-8">
+    <div class="w-full">
+        <!-- Full-width card for header -->
+        <div class="m-8 p-4 bg-white rounded-lg shadow-lg">
+            <div class="text-center">
+                <h2 class="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
+                    <%- server.name %>
+                </h2>
+                <p class="mt-2 text-center text-sm leading-5 text-gray-600">
+                    Server ID: <%- server.id %>
+                </p>
+            </div>
+        </div>
+
+        <!-- Server status card -->
+        <div class="m-8 p-4 bg-white rounded-lg shadow-lg">
+            <div class="text-center">
+                <h2 class="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
+                    Server Status
+                </h2>
+                <p class="mt-2 text-center text-sm leading-5 text-gray-600">
+                    <% if (status.online) { %> Online
+                    <% } else { %> Offline
+                    <% } %>
+                </p>
+                <!-- Create a code block with a dark gray background to hold the MOTD -->
+                <div class="bg-gray-800 rounded-lg p-4 mt-4 text-left text-gray-100" style="font-family: monospace;">
+                    <% status.motd.html.forEach(function(line) { %>
+                        <%- line %>
+                    <% }) %>
+                </div>
+                <!-- Create a list of players with their player heads next to them -->
+                <div class="mt-4">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">
+                        Players
+                    </h3>
+                    <ul class="mt-2">
+                        <% if (status.players.online > 0) { %>
+                            <% status.players.list.forEach(function(player) { %>
+                                <li class="flex items-center">
+                                    <span class="ml-2"><%- player.name %></span>
+                                </li>
+                            <% }) %>
+                        <% } else { %>
+                            <li class="flex items-center">
+                                <span class="ml-2">No players online 😔</span>
+                            </li>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+</body>
+</html>

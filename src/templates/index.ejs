@@ -1,0 +1,35 @@
+<!-- Login EJS template -->
+
+<html>
+<head>
+    <%- include('partials/head.ejs',
+    {
+    pageTitle: 'Home',
+    pageDescription: 'Dashboard for mcdns.me',
+    }) %>
+</head>
+<body class="bg-gray-100 text-gray-900">
+<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full">
+        <% for (let i = 0; i < servers.length; i++) { %>
+            <!-- Each server will have a list item entry, that when clicked, will redirect to the server's dashboard -->
+            <div class="mt-0">
+                <a href="/dashboard/<%= servers[i].id %>"
+                   class="flex items-center justify-between bg-white <% if (i == 0) { %> rounded-t-lg <% } else if (i == servers.length - 1) { %> rounded-b-lg <% } %> border border-gray-300 p-4">
+                    <div class="flex items-center justify-between">
+                        <div class="ml-4">
+                            <div class="text-sm font-medium text-gray-900">
+                                <%= servers[i].name %>
+                            </div>
+                            <div class="text-sm text-gray-500">
+                                <%= servers[i].id %>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        <% } %>
+    </div>
+</div>
+</body>
+</html>
