@@ -23,7 +23,8 @@ module.exports = {
 				const server = {
 					name: parsedProperties['level-name'],
 					port: parsedProperties['server-port'],
-					id: servers.length + 1
+					id: servers.length + 1,
+					properties: parsedProperties,
 				}
 				// Add the server to the servers array
 				servers.push(server);

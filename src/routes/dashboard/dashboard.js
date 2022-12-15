@@ -1,4 +1,5 @@
 const Axios = require('axios');
+const RCON = require('../../utils/rcon/index');
 
 module.exports = {
 	name: 'index', path: '/dashboard/:id', enabled: true, method: 'get', ratelimit: {
@@ -12,6 +13,34 @@ module.exports = {
 		const status = await Axios.get(`https://api.mcsrvstat.us/2/${global.config.server.fullyQualifiedDomainName}:${server.port}`);
 		// Render the dashboard
 		console.log(status.data);
+
+		// Create io from global.io
+		const io = global.io;
+		// On connection
+		io.on('connection', (socket) => {
+			// Connect to RCON server
+			let rcon = new RCON();
+			rcon.connect(server.ip, server.properties['rcon.port'], server.properties['rcon.password']).then(() => {
+				socket.emit('rcon', 'Connected to RCON server');
+			}).catch((err) => {
+				socket.emit('error', err);
+			});
+			// On command
+			socket.on('command', (command) => {
+				// Send command to RCON server
+				rcon.send(command).then((response) => {
+					socket.emit('rcon', response);
+				}).catch((err) => {
+					socket.emit('error', err);
+				});
+			});
+			// On disconnect
+			socket.on('disconnect', () => {
+				// Disconnect from RCON server
+				rcon.disconnect();
+			});
+		});
+
 		return res.render('dashboard', {server: minecraftServers[req.params.id - 1], status: status.data});
 	}
 }
