@@ -41,14 +41,17 @@ let motdParse = {
 		let readingCode = false;
 		let formats = [];
 		let classes = [];
+		let tempMotd = motd;
 		// Convert \u00A7 to §
 		motd = motd.replace(/\\u00A7/g, '§');
 		// Split by §
 		motd = motd.split('§');
+		// First character of motd
+		let first = tempMotd.split('')[0];
 		// Loop through the MOTD
 		for (let i = 0; i < motd.length; i++) {
 			// Check if the first character is a color or format code
-			if (motd[i].length > 0 && (colorCodes[motd[i][0]] || formatCodes[motd[i][0]])) {
+			if (motd[i].length > 0 && (colorCodes[motd[i][0]] || formatCodes[motd[i][0]]) && first === '§') {
 				// Get the code
 				const code = motd[i][0];
 				// Check if the code is a color code
