@@ -30,7 +30,7 @@ module.exports = {
 				// Find server by id
 				const server = servers.find(server => server.id === parseInt(serverId));
 				// Server IP = global.config.server.fullyQualifiedDomainName + ":" + server.port
-				serverIP = global.config.server.fullyQualifiedDomainName;
+				serverIP = '127.0.0.1';
 				rcon.connect(serverIP, server.properties['rcon.port'], server.properties['rcon.password']).then(() => {
 				    socket.emit('rcon', 'Connected to RCON server');
 				}).catch((err) => {
