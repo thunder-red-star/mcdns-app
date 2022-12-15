@@ -117,7 +117,7 @@
     var socket = io();
 
 
-    io.on('connect', function() {
+    socket.on('connect', function() {
         // when the server sends a message
         socket.on('rcon', function(data) {
             // add a new line to the console
