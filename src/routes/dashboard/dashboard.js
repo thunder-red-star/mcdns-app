@@ -12,7 +12,7 @@ module.exports = {
 		let minecraftServers = global.servers;
 		// Make a request to the status API
 		const server = servers.find(server => server.id === parseInt(req.params.id));
-		const motd = motdParser(server.properties['motd']);
+		const motd = motdParser.parse(server.properties['motd']);
 		// Render the dashboard
 		console.log(status.data);
 		
