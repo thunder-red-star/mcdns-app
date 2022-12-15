@@ -6,7 +6,7 @@ const Logger = require('./utils/logger/index');
 const logger = new Logger(path.join(__dirname, 'logs'));
 const servers = require('./utils/servers/index');
 const http = require('http').createServer();
-const socketio = require('socket.io')(http);
+const io = require('socket.io')(http);
 
 const auth = require('./middleware/auth');
 const bodyParserCatch = require('./middleware/bodyParserCatch');
