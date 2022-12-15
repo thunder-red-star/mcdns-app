@@ -34,6 +34,7 @@ module.exports = {
 				}).catch((err) => {
 				    socket.emit('rcon', err.stack);
 				});
+			});
 			// On command
 			socket.on('command', (command) => {
 				// Send command to RCON server
