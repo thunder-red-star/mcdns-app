@@ -2,6 +2,7 @@ const Axios = require('axios');
 const RCON = require('../../utils/rcon/index');
 const serverStart = require('../../utils/serverStart');
 const motdParser = require('../../utils/parse/motd');
+const path = require('path');
 module.exports = {
 	name: 'index', path: '/dashboard/:id', enabled: true, method: 'get', ratelimit: {
 		// The maximum number of requests that can be made in the time window
@@ -51,7 +52,7 @@ module.exports = {
 				// Find server by id
 				const server = servers.find(server => server.id === parseInt(data.id));
 				// Find directory where server is located
-				const directory = server.properties['level-name'];
+				const directory = path.join(global.config.server.directory, server.properties['level-name']);
 				// Start server
 				serverStart(directory);
 			});
