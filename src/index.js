@@ -6,7 +6,7 @@ const Logger = require('./utils/logger/index');
 const logger = new Logger(path.join(__dirname, 'logs'));
 const servers = require('./utils/servers/index');
 const http = require('http').createServer();
-const socketio = require('socket.io');
+const socketio = require('socket.io')(http);
 
 const auth = require('./middleware/auth');
 const bodyParserCatch = require('./middleware/bodyParserCatch');
@@ -42,11 +42,8 @@ attachRoutes(app, routes);
 let minecraftServers = servers.load(global.config.minecraft.serversLocation);
 global.servers = minecraftServers;
 
-// Create the HTTP server
-const server = http.createServer(app);
 
 // Create the Socket.io server
-const io = socketio(server);
 global.io = io;
 
 // Start the server
