@@ -119,7 +119,8 @@
     let rconIsConnected = false;
 
     socket.on('connect', function() {
-        // when the server sends a message
+        // emit the server id to the server
+	socket.emit('rcon', { id: "<%- server.id %>" });
         socket.on('rcon', function(data) {
 	    if (data === 'Connected to RCON server') {
 	    	rconIsConnected = true;
