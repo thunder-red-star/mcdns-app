@@ -121,7 +121,7 @@
         // when the server sends a message
         socket.on('rcon', function(data) {
             // add a new line to the console
-            document.getElementById('rcon-console').innerHTML += data + '<br>';
+            document.getElementById('rcon-console').innerHTML += data.replace(/\n/g, '<br>') + '<br>';
         });
     });
 
@@ -135,6 +135,7 @@
         socket.emit('command', {
             command: command
         });
+        document.getElementById('rcon-console').innerHTML += "&gt; " + command + '<br>';
         // clear the input
         document.getElementById('rcon-input').value = '';
     });
