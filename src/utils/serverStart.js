@@ -8,5 +8,5 @@ module.exports = function serverStart(dir) {
 			return;
 		}
 		console.log(stdout);
-	}
+	});
 }
