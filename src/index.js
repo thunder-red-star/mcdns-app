@@ -5,6 +5,8 @@ const cookieParser = require('cookie-parser');
 const Logger = require('./utils/logger/index');
 const logger = new Logger(path.join(__dirname, 'logs'));
 const servers = require('./utils/servers/index');
+// Create the Express server
+const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
@@ -21,8 +23,6 @@ global.config = globalConfig;
 const getRoutes = require('./utils/getRoutes');
 const attachRoutes = require('./server/attachRoutes');
 
-// Create the Express server
-const app = express();
 
 // Enable middleware
 app.use(bodyParser.json());
