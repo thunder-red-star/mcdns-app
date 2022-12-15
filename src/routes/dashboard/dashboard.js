@@ -37,7 +37,7 @@ module.exports = {
 			// On disconnect
 			socket.on('disconnect', () => {
 				// Disconnect from RCON server
-				rcon.end();
+				rcon.destroy();
 			});
 		});
 
