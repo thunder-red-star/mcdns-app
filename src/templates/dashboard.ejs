@@ -75,7 +75,8 @@
                 <p class="mt-2 text-center text-sm leading-5 text-gray-600">
                     Send commands to your server
                 </p>
-                <form id="rcon" method="POST" class="mt-4">
+                <!-- Prevent sending a post request since we're handling with socket.io -->
+                <form id="rcon" onsubmit="return false;">
                     <input type="hidden" name="server" value="<%- server.id %>">
                     <input type="text" name="command" class="bg-gray-200 rounded-lg p-2" placeholder="Command">
                     <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
@@ -94,7 +95,7 @@
                 <p class="mt-2 text-center text-sm leading-5 text-gray-600">
                     Start, stop, and restart your server
                 </p>
-                <form id="server-actions" method="POST" class="mt-4">
+                <form id="server-actions" class="mt-4">
                     <input type="hidden" name="server" value="<%- server.id %>">
                     <button type="submit" name="action" value="start" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                         Start
