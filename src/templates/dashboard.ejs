@@ -130,13 +130,13 @@
         // prevent the form from submitting
         e.preventDefault();
         // get the command
-        var command = document.querySelector('input[name="command"]').value;
+        var command = document.getElementById('rcon-input').value;
         // send the command to the server
         socket.emit('command', {
             command: command
         });
         // clear the input
-        document.querySelector('input[name="command"]').value = '';
+        document.getElementById('rcon-input').value = '';
     });
 
 
