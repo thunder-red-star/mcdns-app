@@ -13,8 +13,6 @@ module.exports = {
 		// Make a request to the status API
 		const server = servers.find(server => server.id === parseInt(req.params.id));
 		const motd = motdParser.parse(server.properties['motd']);
-		// Render the dashboard
-		console.log(status.data);
 		
 		// Render template
 		return res.render('dashboard', {server: minecraftServers[req.params.id - 1], motd: motd});
