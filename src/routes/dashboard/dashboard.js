@@ -34,6 +34,11 @@ module.exports = {
 					socket.emit('rcon', err.stack);
 				});
 			});
+			// On disconnect
+			socket.on('disconnect', () => {
+				// Disconnect from RCON server
+				rcon.end();
+			}
 		});
 
 		return res.render('dashboard', {server: minecraftServers[req.params.id - 1], status: status.data});
