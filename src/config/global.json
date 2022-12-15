@@ -4,7 +4,7 @@
     "secret": "secret_12345_abc0iiekqwoemkqmocmakjifoqeinjqof0jioacpioascm0aiomcoisancmiaoncauiscnn93n4unca0aca4c0p4n9ca0n3"
   },
   "server": {
-    "port": 3000,
+    "port": 3001,
     "host": "0.0.0.0",
     "fullyQualifiedDomainName": "2.mcdns.me"
   },
