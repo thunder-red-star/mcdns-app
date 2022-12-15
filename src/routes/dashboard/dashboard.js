@@ -16,10 +16,10 @@ module.exports = {
 
 		// Create io from global.io
 		const io = global.io;
-		let rcon = new RCON();
 		// On connection
 		io.on('connection', (socket) => {
 			// Connect to RCON server
+			let rcon = new RCON();
 			rcon.connect(server.ip, server.properties['rcon.port'], server.properties['rcon.password']).then(() => {
 				socket.emit('rcon', 'Connected to RCON server');
 			}).catch((err) => {
