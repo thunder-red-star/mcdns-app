@@ -1,0 +1,17 @@
+{
+  "jwt": {
+    "expiresIn": "1d",
+    "secret": "some_secret"
+  },
+  "server": {
+    "port": 3000,
+    "host": "0.0.0.0",
+    "fullyQualifiedDomainName": "example.com"
+  },
+  "login": {
+    "password": "your_secret_password"
+  },
+  "minecraft": {
+    "serversLocation": "/path/to/minecraft/servers"
+  }
+}

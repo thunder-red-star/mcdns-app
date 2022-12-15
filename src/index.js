@@ -4,6 +4,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const Logger = require('./utils/logger/index');
 const logger = new Logger(path.join(__dirname, 'logs'));
+const servers = require('./utils/servers/index');
 
 const auth = require('./middleware/auth');
 const bodyParserCatch = require('./middleware/bodyParserCatch');
@@ -34,6 +35,10 @@ app.use(auth);
 // Attach routes
 let routes = getRoutes();
 attachRoutes(app, routes);
+
+// Load servers and set global.servers
+let minecraftServers = servers.load(global.config.minecraft.serversLocation);
+global.servers = minecraftServers;
 
 // Start the server
 const port = process.env.PORT || 3000;

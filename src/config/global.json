@@ -10,5 +10,8 @@
   },
   "login": {
     "password": "admin"
+  },
+  "minecraft": {
+    "serversLocation": "/home/thunder/thundernodes"
   }
 }

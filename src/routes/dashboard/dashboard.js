@@ -6,26 +6,12 @@ module.exports = {
 		max: 100, // The time window in milliseconds
 		window: 1
 	}, handler: async (req, res) => {
-		// Get list of servers
-		// Placeholder for now
-		const servers = [{
-			id: 1, name: 'Server 1', port: 30600
-		}, {
-			id: 2, name: 'Server 2', port: 30601
-		}, {
-			id: 3, name: 'Server 3', port: 30602
-		}, {
-			id: 4, name: 'Server 4', port: 30603
-		}, {
-			id: 5, name: 'Server 5', port: 30604
-		}];
-
+		let minecraftServers = global.servers;
 		// Make a request to the status API
 		const server = servers.find(server => server.id === parseInt(req.params.id));
 		const status = await Axios.get(`https://api.mcsrvstat.us/2/${global.config.server.fullyQualifiedDomainName}:${server.port}`);
-
 		// Render the dashboard
 		console.log(status.data);
-		return res.render('dashboard', {server: servers[req.params.id - 1], status: status.data});
+		return res.render('dashboard', {server: minecraftServers[req.params.id - 1], status: status.data});
 	}
 }
