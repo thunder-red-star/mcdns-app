@@ -19,6 +19,7 @@ module.exports = {
 		// On connection
 		io.on('connection', (socket) => {
 			// Connect to RCON server
+			global.logger.info("Someone connected to the RCON server");
 			let rcon = new RCON();
 			rcon.connect(server.ip, server.properties['rcon.port'], server.properties['rcon.password']).then(() => {
 				socket.emit('rcon', 'Connected to RCON server');
@@ -38,6 +39,7 @@ module.exports = {
 			socket.on('disconnect', () => {
 				// Disconnect from RCON server
 				rcon.destroy();
+				global.logger.info("Someone disconnected from the RCON server");
 			});
 		});
 
