@@ -13,9 +13,20 @@ module.exports = {
 		// Make a request to the status API
 		const server = servers.find(server => server.id === parseInt(req.params.id));
 		const motd = motdParser.parse(server.properties['motd']);
+
+		let online = false;
+		// Try to RCON into the server to see if it's online
+		try {
+			const rcon = new RCON(server.ip, server.port, server.rconPassword);
+			await rcon.connect();
+			await rcon.destroy();
+			online = true;
+		} catch (e) {
+			online = false;
+		}
 		
 		// Render template
-		return res.render('dashboard', {server: minecraftServers[req.params.id - 1], motd: motd});
+		return res.render('dashboard', {server: minecraftServers[req.params.id - 1], motd: motd, online: online});
 	}, runOnAttach: async (expressServer) => {
 		// Create io from global.io
 		const io = global.io;
