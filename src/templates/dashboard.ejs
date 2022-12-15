@@ -85,13 +85,13 @@
                 </p>
                 <form id="server-actions" class="mt-4" action="">
                     <input type="hidden" name="server" value="<%- server.id %>">
-                    <button type="submit" name="action" value="start" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                    <button type="submit" id="serverStart" name="action" value="start" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                         Start
                     </button>
-                    <button type="submit" name="action" value="stop" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                    <button type="submit" id="serverStop" name="action" value="stop" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                         Stop
                     </button>
-                    <button type="submit" name="action" value="restart" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
+                    <button type="submit" id="serverRestart" name="action" value="restart" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
                         Restart
                     </button>
                 </form>
@@ -135,7 +135,33 @@
         document.getElementById('rcon-input').value = '';
     });
 
+    // When server actions are submitted
+    document.getElementById('serverStart').addEventListener('click', function(e) {
+	// prevent the form from submitting
+	e.preventDefault();
+	// send the command to the server
+	socket.emit('serverStart', {
+	    id: "<%- server.id %>"
+	    });
+    });
 
+    document.getElementById('serverStop').addEventListener('click', function(e) {
+	// prevent the form from submitting
+	e.preventDefault();
+	// send the command to the server
+	socket.emit('serverStop', {
+	    id: "<%- server.id %>"
+	    });
+    });
+
+    document.getElementById('serverRestart').addEventListener('click', function(e) {
+    	// prevent the form from submitting
+	e.preventDefault();
+	// send the command to the server
+	socket.emit('serverRestart', {
+	    id: "<%- server.id %>"
+	    });
+    });
 </script>
 </body>
 </html>
