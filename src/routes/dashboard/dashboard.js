@@ -13,7 +13,10 @@ module.exports = {
 		const status = await Axios.get(`https://api.mcsrvstat.us/2/${global.config.server.fullyQualifiedDomainName}:${server.port}`);
 		// Render the dashboard
 		console.log(status.data);
-
+		
+		// Render template
+		return res.render('dashboard', {server: minecraftServers[req.params.id - 1], status: status.data});
+	}, runOnAttach: async (expressServer) => {
 		// Create io from global.io
 		const io = global.io;
 		// On connection
@@ -42,7 +45,5 @@ module.exports = {
 				global.logger.info("Someone disconnected from the RCON server");
 			});
 		});
-
-		return res.render('dashboard', {server: minecraftServers[req.params.id - 1], status: status.data});
 	}
 }

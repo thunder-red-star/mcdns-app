@@ -95,6 +95,11 @@ module.exports = function (expressServer, routesObject) {
 					// Log the error
 				}
 			});
+			// Run the runOnAttach function if it exists
+			// This is used to attach websockets to the route
+			if (route.runOnAttach) {
+				route.runOnAttach(expressServer);
+			}
 			global.logger.info("Attached route " + route.path + " (" + route.method + ")");
 		}
 	}
