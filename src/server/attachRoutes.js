@@ -98,24 +98,4 @@ module.exports = function (expressServer, routesObject) {
 			global.logger.info("Attached route " + route.path + " (" + route.method + ")");
 		}
 	}
-	// Set up a 404 handler
-	expressServer.use((req, res) => {
-		// Since Express keeps glitching and sends 404s when it shouldn't, we'll check if the route exists
-		let found = false;
-		for (const route of routesObject) {
-			if (route.path === req.path) {
-				found = true;
-				break;
-			}
-		}
-		if (!found) {
-			// Send a 404 Not Found error
-			global.logger.warn(`${req.method} ${req.path} ${req.ip} 404`);
-			return res.status(404).send({
-				error: 'Not Found',
-				status: 404,
-				message: 'The requested resource could not be found.'
-			});
-		}
-	});
 }
