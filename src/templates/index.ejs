@@ -15,7 +15,7 @@
             <!-- Each server will have a list item entry, that when clicked, will redirect to the server's dashboard -->
             <div class="mt-0">
                 <a href="/dashboard/<%= servers[i].id %>"
-                   class="flex items-center justify-between bg-white <% if (i == 0) { %> rounded-t-lg <% } else if (i == servers.length - 1) { %> rounded-b-lg <% } %> border border-gray-300 p-4">
+                   class="flex items-center justify-between bg-white <% if (i == 0) { %> rounded-t-lg <% } %> border border-gray-300 p-4">
                     <div class="flex items-center justify-between">
                         <div class="ml-4">
                             <div class="text-sm font-medium text-gray-900">
@@ -29,6 +29,12 @@
                 </a>
             </div>
         <% } %>
+	<!-- Create server -->
+	<div class="mt-0">
+	    <a href="/create" class="flex items-center justify-between bg-white rounded-b-lg border border-gray-300 p-4">
+	    	Create Server
+	    </a>
+	</div>
     </div>
 </div>
 </body>
