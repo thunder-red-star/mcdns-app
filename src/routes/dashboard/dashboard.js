@@ -24,6 +24,7 @@ module.exports = {
 			// Connect to RCON server
 			global.logger.info("Someone connected to the RCON server");
 			let rcon = new RCON();
+			const server = servers.find(server => server.id === parseInt(req.params.id));
 			rcon.connect(server.ip, server.properties['rcon.port'], server.properties['rcon.password']).then(() => {
 				socket.emit('rcon', 'Connected to RCON server');
 			}).catch((err) => {
