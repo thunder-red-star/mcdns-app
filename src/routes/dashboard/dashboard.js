@@ -23,7 +23,7 @@ module.exports = {
 			rcon.connect(server.ip, server.properties['rcon.port'], server.properties['rcon.password']).then(() => {
 				socket.emit('rcon', 'Connected to RCON server');
 			}).catch((err) => {
-				socket.emit('rcon', err);
+				socket.emit('rcon', err.stack);
 			});
 			// On command
 			socket.on('command', (command) => {
@@ -31,7 +31,7 @@ module.exports = {
 				rcon.send(command).then((response) => {
 					socket.emit('rcon', response);
 				}).catch((err) => {
-					socket.emit('rcon', err);
+					socket.emit('rcon', err.stack);
 				});
 			});
 			// On disconnect
