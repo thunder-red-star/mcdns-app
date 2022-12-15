@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 const Logger = require('./utils/logger/index');
 const logger = new Logger(path.join(__dirname, 'logs'));
 const servers = require('./utils/servers/index');
-const http = require('http');
+const http = require('http').createServer();
 const socketio = require('socket.io');
 
 const auth = require('./middleware/auth');
