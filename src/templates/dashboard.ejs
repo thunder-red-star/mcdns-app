@@ -79,7 +79,7 @@
                 <form id="rcon" class="mt-4" action="">
                     <input type="hidden" name="server" value="<%- server.id %>">
                     <input type="text" name="command" class="bg-gray-200 rounded-lg p-2" placeholder="/say Hello world!" id="rcon-input">
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" disabled>
                         Send
                     </button>
                 </form>
@@ -116,10 +116,16 @@
     // connect to socket
     var socket = io();
 
+    let rconIsConnected = false;
 
     socket.on('connect', function() {
         // when the server sends a message
         socket.on('rcon', function(data) {
+	    if (data === 'Connected to RCON server') {
+	    	rcnIsConnected = true;
+		// Undisable the send button
+		document.getElementById('rcon').querySelector('button').disabled = false;
+	    }
             // add a new line to the console
             document.getElementById('rcon-console').innerHTML += data.replace(/\n/g, '<br>') + '<br>';
         });
