@@ -48,6 +48,6 @@ global.io = io;
 
 // Start the server
 const port = global.config.server.port || 3001;
-app.listen(port, () => {
+http.listen(port, () => {
 	logger.info(`Server started on port ${port}`);
 });
