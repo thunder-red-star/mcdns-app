@@ -34,10 +34,6 @@ app.use(cookieParser());
 app.use(bodyParserCatch);
 app.use(auth);
 
-// Attach routes
-let routes = getRoutes();
-attachRoutes(app, routes);
-
 // Load servers and set global.servers
 let minecraftServers = servers.load(global.config.minecraft.serversLocation);
 global.servers = minecraftServers;
@@ -45,6 +41,9 @@ global.servers = minecraftServers;
 
 // Create the Socket.io server
 global.io = io;
+
+let routes = getRoutes();
+attachRoutes(app, routes);
 
 // Start the server
 const port = global.config.server.port || 3001;
