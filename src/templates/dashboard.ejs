@@ -36,9 +36,7 @@
                 </p>
                 <!-- Create a code block with a dark gray background to hold the MOTD -->
                 <div class="bg-gray-800 rounded-lg p-4 mt-4 text-left text-gray-100" style="font-family: monospace;">
-                    <% status.motd.html.forEach(function(line) { %>
-                        <%- line %>
-                    <% }) %>
+                    <%- motd %>
                 </div>
                 <!-- Create a list of players with their player heads next to them -->
                 <div class="mt-4">
@@ -46,17 +44,7 @@
                         Players
                     </h3>
                     <ul class="mt-2">
-                        <% if (status.players.online > 0) { %>
-                            <% status.players.list.forEach(function(player) { %>
-                                <li class="flex items-center">
-                                    <span class="ml-2"><%- player.name %></span>
-                                </li>
-                            <% }) %>
-                        <% } else { %>
-                            <li class="flex items-center">
-                                <span class="ml-2">No players online 😔</span>
-                            </li>
-                        <% } %>
+                        No players online :( (this will be updated soon)
                     </ul>
                 </div>
             </div>

@@ -1,6 +1,7 @@
 const Axios = require('axios');
 const RCON = require('../../utils/rcon/index');
-
+const serverStart = require('../../utils/serverStart');
+const motdParser = require('../../utils/parse/motd');
 module.exports = {
 	name: 'index', path: '/dashboard/:id', enabled: true, method: 'get', ratelimit: {
 		// The maximum number of requests that can be made in the time window
@@ -10,12 +11,12 @@ module.exports = {
 		let minecraftServers = global.servers;
 		// Make a request to the status API
 		const server = servers.find(server => server.id === parseInt(req.params.id));
-		const status = await Axios.get(`https://api.mcsrvstat.us/2/${global.config.server.fullyQualifiedDomainName}:${server.port}`);
+		const motd = motdParser(server.properties['motd']);
 		// Render the dashboard
 		console.log(status.data);
 		
 		// Render template
-		return res.render('dashboard', {server: minecraftServers[req.params.id - 1], status: status.data});
+		return res.render('dashboard', {server: minecraftServers[req.params.id - 1], motd: motd});
 	}, runOnAttach: async (expressServer) => {
 		// Create io from global.io
 		const io = global.io;
@@ -42,6 +43,37 @@ module.exports = {
 				// Send command to RCON server
 				rcon.send(command.command).then((response) => {
 					socket.emit('rcon', response);
+				}).catch((err) => {
+					socket.emit('rcon', err.stack);
+				});
+			});
+			socket.on('serverStart', (data) => {
+				// Find server by id
+				const server = servers.find(server => server.id === parseInt(data.id));
+				// Find directory where server is located
+				const directory = server.properties['level-name'];
+				// Start server
+				serverStart(directory);
+			});
+			socket.on('serverStop', (data) => {
+				// Find server by id
+				const server = servers.find(server => server.id === parseInt(data.id));
+				// RCON command to stop server
+				rcon.send('stop').then((response) => {
+					socket.emit('rcon', response);
+				}).catch((err) => {
+					socket.emit('rcon', err.stack);
+				});
+			});
+			socket.on('serverRestart', (data) => {
+				// Find server by id
+				const server = servers.find(server => server.id === parseInt(data.id));
+				// Find directory where server is located
+				// RCON command to stop server
+				rcon.send('stop').then((response) => {
+					socket.emit('rcon', response);
+					// Restart server
+					serverStart(directory);
 				}).catch((err) => {
 					socket.emit('rcon', err.stack);
 				});
