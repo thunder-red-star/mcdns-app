@@ -26,7 +26,7 @@ module.exports = {
 			let rcon = new RCON();
 			
 			socket.on('rcon', async (data) => {
-				serverId = data.serverId;
+				serverId = data.id;
 				// Find server by id
 				const server = servers.find(server => server.id === parseInt(serverId));
 				// Server IP = global.config.server.fullyQualifiedDomainName + ":" + server.port
