@@ -95,7 +95,7 @@
                 <p class="mt-2 text-center text-sm leading-5 text-gray-600">
                     Start, stop, and restart your server
                 </p>
-                <form id="server-actions" class="mt-4">
+                <form id="server-actions" class="mt-4" action="">
                     <input type="hidden" name="server" value="<%- server.id %>">
                     <button type="submit" name="action" value="start" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                         Start
@@ -119,7 +119,10 @@
 
     io.on('connect', function() {
         // when the server sends a message
-        socket.on('r
+        socket.on('rcon', function(data) {
+            // add a new line to the console
+            document.getElementById('rcon-console').innerHTML += data + '<br>';
+        });
     });
 
     // when the form is submitted
