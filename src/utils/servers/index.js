@@ -55,7 +55,7 @@ module.exports = {
 		// Ping the server to see if it's online
 		try {
 			// Try to get a response within 3 seconds
-			const response = await minecraftServerUtil.status('127.0.0.1', server.properties['server-port'], {timeout: 3000});
+			const response = await minecraftServerUtil.status(server.ip, parseInt(server.port), {timeout: 3000});
 			return true;
 		} catch (err) {
 			global.logger.error("Error while pinging server: " + err);
