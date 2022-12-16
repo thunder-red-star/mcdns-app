@@ -37,7 +37,7 @@ module.exports = {
 		for (let i = 0; i < global.servers.length; i++) {
 			const server = global.servers[i];
 			// Ping server
-			let response = serverUtils.online(server);
+			let response = await serverUtils.online(server);
 			global.logger.info(`Pinged ${server.ip}:${server.port} and got ${response}`);
 			// Send response to client
 			socket.emit('status', {id: server.id, online: response});
