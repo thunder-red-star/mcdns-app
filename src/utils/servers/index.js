@@ -53,6 +53,7 @@ module.exports = {
 			return true;
 		} catch (err) {
 			global.logger.error("Error while pinging server: " + err);
+			global.logger.logRaw(err.stack);
 			return false;
 		}
 	}
