@@ -3,6 +3,7 @@ const RCON = require('../../utils/rcon/index');
 const serverStart = require('../../utils/serverStart');
 const motdParser = require('../../utils/parse/motd');
 const path = require('path');
+const minecraftServerUtil = require('minecraft-server-util');
 module.exports = {
 	name: 'dashboard', path: '/dashboard/:id', enabled: true, method: 'get', ratelimit: {
 		// The maximum number of requests that can be made in the time window
@@ -14,19 +15,11 @@ module.exports = {
 		const server = servers.find(server => server.id === parseInt(req.params.id));
 		const motd = motdParser.parse(server.properties['motd']);
 
-		let online = false;
-		// Try to RCON into the server to see if it's online
-		try {
-			const rcon = new RCON(server.ip, server.port, server.rconPassword);
-			await rcon.connect();
-			await rcon.destroy();
-			online = true;
-		} catch (e) {
-			online = false;
-		}
+		// Check if the server is online
+		const isOnline = await minecraftServerUtil.status(server.ip, server.port).then(() => true).catch(() => false);
 		
 		// Render template
-		return res.render('dashboard', {server: minecraftServers[req.params.id - 1], motd: motd, online: online});
+		return res.render('dashboard', {server: minecraftServers[req.params.id - 1], motd: motd, online: isOnline});
 	}, socketAction: async (socket) => {
 		// Connect to RCON server
 		global.logger.info("Someone connected to the RCON server");
