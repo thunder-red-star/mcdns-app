@@ -86,7 +86,7 @@ module.exports = {
     const parsedProperties = propertiesParser.parse(templateProperties);
     parsedProperties['server-port'] = serverPort;
     parsedProperties['level-name'] = serverName;
-    parsedProperties['rcon.port'] = serverPort + 10000;
+    parsedProperties['rcon.port'] = parseInt(serverPort) + 10000;
     parsedProperties['rcon.password'] = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     const newProperties = propertiesParser.dump(parsedProperties);
     fs.writeFileSync(path.join(serverDirectory, 'server.properties'), newProperties);

@@ -55,5 +55,8 @@ module.exports = {
 
     // Create a new server
     await server.create(serverName, serverPort, serverType, serverVersion, serverRam);
+
+    // Redirect to the home page
+    res.redirect("/");
   },
 };
