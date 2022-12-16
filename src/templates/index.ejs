@@ -21,21 +21,43 @@
                             <div class="text-sm font-medium text-gray-900">
                                 <%= servers[i].name %>
                             </div>
-                            <div class="text-sm text-gray-500">
-                                <%= servers[i].id %>
+                            <div class="text-sm text-gray-500" id="server-<%= servers[i].id %>-status">
+                                <!-- Server online status (will be updated by websocket) -->
+                                Loading...
                             </div>
                         </div>
                     </div>
                 </a>
             </div>
         <% } %>
-	<!-- Create server -->
-	<div class="mt-0">
-	    <a href="/create" class="flex items-center justify-between bg-white rounded-b-lg border border-gray-300 p-4">
-	    	Create Server
-	    </a>
-	</div>
+        <!-- Create server -->
+        <div class="mt-0">
+            <a href="/create"
+               class="flex items-center justify-between bg-white rounded-b-lg border border-gray-300 p-4">
+                Create Server
+            </a>
+        </div>
     </div>
 </div>
+
+<!-- Websocket script -->
+<script>
+	// connect to socket
+	var socket = io();
+
+	socket.on('connect', function () {
+		// emit the server id to the server
+		socket.on('status', function (data) {
+			// update the status of the server
+			if (data.online === true) {
+				// Inner HTML will be a green circle and the text "Online"
+				document.getElementById("server-" + data.id + "-status").innerHTML = '<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Online';
+			} else {
+				// Inner HTML will be a red circle and the text "Offline"
+				document.getElementById("server-" + data.id + "-status").innerHTML = '<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>Offline';
+			}
+		});
+	});
+</script>
 </body>
 </html>

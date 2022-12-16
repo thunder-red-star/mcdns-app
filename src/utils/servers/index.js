@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const motdParser = require('../parse/motd');
 const propertiesParser = require('../parse/properties');
+const minecraftServerUtil = require('minecraft-server-util');
 
 module.exports = {
 	load: (dir) => {
@@ -23,6 +24,7 @@ module.exports = {
 				const server = {
 					name: parsedProperties['level-name'],
 					port: parsedProperties['server-port'],
+					ip: (() => { if (parsedProperties['server-ip'] === '') { return '127.0.0.1'; } else { return parsedProperties['server-ip']; } })(),
 					id: servers.length + 1,
 					properties: parsedProperties,
 				}
@@ -41,5 +43,15 @@ module.exports = {
 		}
 		// Return the servers
 		return servers;
+	},
+
+	online: async (server) => {
+		// Ping the server to see if it's online
+		try {
+			const response = await minecraftServerUtil.status(server.ip, server.port || 25565);
+			return true;
+		} catch (err) {
+			return false;
+		}
 	}
 }

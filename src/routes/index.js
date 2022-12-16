@@ -1,3 +1,5 @@
+const serverUtils = require('../utils/servers/index');
+
 module.exports = {
 	name: 'index',
 	path: '/',
@@ -11,7 +13,22 @@ module.exports = {
 	},
 	handler: async (req, res) => {
 		// Get list of servers
-		// Placeholder for now
-		return res.render('index', {servers: global.servers});
+		const minecraftServers = serverUtils.load(global.config.minecraft.serversLocation);
+		global.servers = minecraftServers;
+		return res.render('index', {servers: minecraftServers});
+	}, runOnAttach: async (expressServer) => {
+		// Create io from global.io
+		const io = global.io;
+		// On connection
+		io.on('connection', (socket) => {
+			// Ping all Minecraft servers
+			for (let i = 0; i < global.servers.length; i++) {
+				const server = global.servers[i];
+				// Ping server
+				let response = serverUtils.online(server.ip, server.port);
+				// Send response to client
+				socket.emit('status', {id: server.id, online: response});
+			}
+		});
 	}
 }

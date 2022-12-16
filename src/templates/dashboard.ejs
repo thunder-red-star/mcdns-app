@@ -57,7 +57,8 @@
                     RCON
                 </h2>
                 <!-- Code block to display the RCON console -->
-                <div class="bg-gray-800 rounded-lg p-4 mt-4 text-left text-gray-100" style="font-family: monospace;" id="rcon-console">
+                <div class="bg-gray-800 rounded-lg p-4 mt-4 text-left text-gray-100" style="font-family: monospace;"
+                     id="rcon-console">
 
                 </div>
                 <p class="mt-2 text-center text-sm leading-5 text-gray-600">
@@ -66,8 +67,10 @@
                 <!-- Prevent sending a post request since we're handling with socket.io -->
                 <form id="rcon" class="mt-4" action="">
                     <input type="hidden" name="server" value="<%- server.id %>">
-                    <input type="text" name="command" class="bg-gray-200 rounded-lg p-2" placeholder="/say Hello world!" id="rcon-input">
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" disabled>
+                    <input type="text" name="command" class="bg-gray-200 rounded-lg p-2" placeholder="/say Hello world!"
+                           id="rcon-input">
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                            disabled>
                         Send
                     </button>
                 </form>
@@ -85,13 +88,16 @@
                 </p>
                 <form id="server-actions" class="mt-4" action="">
                     <input type="hidden" name="server" value="<%- server.id %>">
-                    <button type="submit" id="serverStart" name="action" value="start" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                    <button type="submit" id="serverStart" name="action" value="start"
+                            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                         Start
                     </button>
-                    <button type="submit" id="serverStop" name="action" value="stop" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                    <button type="submit" id="serverStop" name="action" value="stop"
+                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                         Stop
                     </button>
-                    <button type="submit" id="serverRestart" name="action" value="restart" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
+                    <button type="submit" id="serverRestart" name="action" value="restart"
+                            class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
                         Restart
                     </button>
                 </form>
@@ -101,67 +107,67 @@
 </div>
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    // connect to socket
-    var socket = io();
+	// connect to socket
+	var socket = io();
 
-    let rconIsConnected = false;
+	let rconIsConnected = false;
 
-    socket.on('connect', function() {
-        // emit the server id to the server
-	socket.emit('rcon', { id: "<%- server.id %>" });
-        socket.on('rcon', function(data) {
-	    if (data === 'Connected to RCON server') {
-	    	rconIsConnected = true;
-		// Undisable the send button
-		document.getElementById('rcon').querySelector('button').disabled = false;
-	    }
-            // add a new line to the console
-            document.getElementById('rcon-console').innerHTML += data.replace(/\n/g, '<br>') + '<br>';
-        });
-    });
+	socket.on('connect', function () {
+		// emit the server id to the server
+		socket.emit('rcon', {id: "<%- server.id %>"});
+		socket.on('rcon', function (data) {
+			if (data === 'Connected to RCON server') {
+				rconIsConnected = true;
+				// Undisable the send button
+				document.getElementById('rcon').querySelector('button').disabled = false;
+			}
+			// add a new line to the console
+			document.getElementById('rcon-console').innerHTML += data.replace(/\n/g, '<br>') + '<br>';
+		});
+	});
 
-    // when the form is submitted
-    document.getElementById('rcon').addEventListener('submit', function(e) {
-        // prevent the form from submitting
-        e.preventDefault();
-        // get the command
-        var command = document.getElementById('rcon-input').value;
-        // send the command to the server
-        socket.emit('command', {
-            command: command
-        });
-        document.getElementById('rcon-console').innerHTML += "&gt; " + command + '<br>';
-        // clear the input
-        document.getElementById('rcon-input').value = '';
-    });
+	// when the form is submitted
+	document.getElementById('rcon').addEventListener('submit', function (e) {
+		// prevent the form from submitting
+		e.preventDefault();
+		// get the command
+		var command = document.getElementById('rcon-input').value;
+		// send the command to the server
+		socket.emit('command', {
+			command: command
+		});
+		document.getElementById('rcon-console').innerHTML += "&gt; " + command + '<br>';
+		// clear the input
+		document.getElementById('rcon-input').value = '';
+	});
 
-    // When server actions are submitted
-    document.getElementById('serverStart').addEventListener('click', function(e) {
-	// prevent the form from submitting
-	e.preventDefault();
-	// send the command to the server
-	socket.emit('serverStart', {
-	    id: "<%- server.id %>"
-	    });
-    });
+	// When server actions are submitted
+	document.getElementById('serverStart').addEventListener('click', function (e) {
+		// prevent the form from submitting
+		e.preventDefault();
+		// send the command to the server
+		socket.emit('serverStart', {
+			id: "<%- server.id %>"
+		});
+	});
 
-    document.getElementById('serverStop').addEventListener('click', function(e) {
-	// prevent the form from submitting
-	e.preventDefault();
-	// send the command to the server
-	socket.emit('serverStop', {
-	    id: "<%- server.id %>"
-	    });
-    });
+	document.getElementById('serverStop').addEventListener('click', function (e) {
+		// prevent the form from submitting
+		e.preventDefault();
+		// send the command to the server
+		socket.emit('serverStop', {
+			id: "<%- server.id %>"
+		});
+	});
 
-    document.getElementById('serverRestart').addEventListener('click', function(e) {
-    	// prevent the form from submitting
-	e.preventDefault();
-	// send the command to the server
-	socket.emit('serverRestart', {
-	    id: "<%- server.id %>"
-	    });
-    });
+	document.getElementById('serverRestart').addEventListener('click', function (e) {
+		// prevent the form from submitting
+		e.preventDefault();
+		// send the command to the server
+		socket.emit('serverRestart', {
+			id: "<%- server.id %>"
+		});
+	});
 </script>
 </body>
 </html>
