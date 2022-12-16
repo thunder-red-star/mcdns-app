@@ -52,11 +52,25 @@
 		socket.on('status', function (data) {
 			// update the status of the server
 			if (data.online === true) {
-				// Inner HTML will be a green circle and the text "Online"
-				document.getElementById("server-" + data.id + "-status").innerHTML = '<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Online';
+				// Inner HTML will be a green circle (use tailwind css to make this!) and the text "Online"
+                let html = `
+                    <svg class="h-4 w-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 12a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm0 2a10 10 0 100-20 10 10 0 000 20z" clip-rule="evenodd"></path>
+                    </svg>
+                    Online
+                `
+                document.getElementById("server-" + data.id + "-status").innerHTML = html;
 			} else {
-				// Inner HTML will be a red circle and the text "Offline"
-				document.getElementById("server-" + data.id + "-status").innerHTML = '<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>Offline';
+				// Inner HTML will be a red circle (use tailwind css to make this!) and the text "Offline"
+                let html = `
+                    <svg class="h-4 w-4 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 12a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm0 2a10 10 0 100-20 10 10 0 000 20z" clip-rule="evenodd"></path>
+                    </svg>
+                    Offline
+                `
+                document.getElementById("server-" + data.id + "-status").innerHTML = html;
 			}
 		});
 	});
