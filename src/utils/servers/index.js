@@ -111,7 +111,7 @@ module.exports = {
 	serverJar.data.on('end', () => {
 	  resolve();
 	});
-      }
+      });
     } else if (serverType === 'paper') {
       // Download the server jar
       const builds = await Axios.get(`https://api.papermc.io/v2/projects/paper/versions/${serverVersion}/builds`);
@@ -125,7 +125,7 @@ module.exports = {
         serverJar.data.on('end', () => {
 	  resolve();
 	});
-      }
+      });
     } else {
       // Unsupported server type
       global.logger.error(`Unsupported server type: ${serverType}`);
