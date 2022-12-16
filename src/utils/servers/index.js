@@ -20,11 +20,17 @@ module.exports = {
 				const properties = fs.readFileSync(path.join(dir, folder, 'server.properties'), 'utf8');
 				// Parse the properties
 				const parsedProperties = propertiesParser.parse(properties);
+				let ip;
+				if (parsedProperties['server-ip'] === '' || parsedProperties['server-ip'] === undefined) {
+					ip = '127.0.0.1';
+				} else {
+					ip = parsedProperties['server-ip'];
+				}
 				// Get the server info
 				const server = {
 					name: parsedProperties['level-name'],
 					port: parsedProperties['server-port'],
-					ip: (() => { if (parsedProperties['server-ip'] === '' || parsedProperties['server-ip'] === undefined) { return '127.0.0.1'; } else { return parsedProperties['server-ip']; } })(),
+					ip: ip,
 					id: servers.length + 1,
 					properties: parsedProperties,
 				}
@@ -33,11 +39,11 @@ module.exports = {
 			} catch (err) {
 				// If file not found error, continue
 				if (err.code === 'ENOENT') {
-					continue;
+
 				} else {
 					global.logger.error("Error while loading server properties: " + err);
 					global.logger.raw(err.stack);
-					continue;
+
 				}
 			}
 		}
@@ -49,7 +55,7 @@ module.exports = {
 		// Ping the server to see if it's online
 		try {
 			// Try to get a response within 3 seconds
-			const response = await minecraftServerUtil.status(server.ip, server.port, { timeout: 3000 });
+			const response = await minecraftServerUtil.status(server.ip, server.port, {timeout: 3000});
 			return true;
 		} catch (err) {
 			global.logger.error("Error while pinging server: " + err);
