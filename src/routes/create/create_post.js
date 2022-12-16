@@ -1,4 +1,4 @@
-const server = require('../../utils/server/index.js');
+const server = require('../../utils/servers/index.js');
 
 module.exports = {
   name: "create",
