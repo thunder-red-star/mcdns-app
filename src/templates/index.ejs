@@ -47,6 +47,7 @@
 	var socket = io();
 
 	socket.on('connect', function () {
+        socket.emit("declare", "index")
 		// emit the server id to the server
 		socket.on('status', function (data) {
 			// update the status of the server

@@ -45,11 +45,12 @@ global.io = io;
 let routes = getRoutes();
 attachRoutes(app, routes);
 
-io.on('connection', (socket, req) => {
-	  logger.info('Socket at ' + req.url + ' connected');
-		ioHandler(socket, req, routes);
-		socket.on('disconnect', () => {
-				logger.info('Socket at ' + req.url + ' disconnected');
+io.on('connection', (socket) => {
+	  socket.on('declare', (data) => {
+			// Socket declares its intent (e.g. "dashboard", "index", etc.)
+			socket.declared = data;
+			// Now we want to use socketAction to handle any new emits
+			ioHandler(socket, routes);
 		});
 });
 

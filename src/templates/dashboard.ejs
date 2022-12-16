@@ -114,6 +114,7 @@
 
 	socket.on('connect', function () {
 		// emit the server id to the server
+        socket.emit("declare", "dashboard")
 		socket.emit('rcon', {id: "<%- server.id %>"});
 		socket.on('rcon', function (data) {
 			if (data === 'Connected to RCON server') {
