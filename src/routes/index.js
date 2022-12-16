@@ -36,7 +36,7 @@ module.exports = {
 		for (let i = 0; i < global.servers.length; i++) {
 			const server = global.servers[i];
 			// Ping server
-			let response = serverUtils.online(server.ip, server.port);
+			let response = serverUtils.online(server);
 			// Send response to client
 			socket.emit('status', {id: server.id, online: response});
 		}
