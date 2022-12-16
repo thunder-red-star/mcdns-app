@@ -19,6 +19,13 @@ module.exports = {
     serverVersion = req.body.serverVersion;
     serverRam = req.body.serverRam;
 
+    // Print each variable to the console
+    console.log(serverName);
+    console.log(serverPort);
+    console.log(serverType);
+    console.log(serverVersion);
+    console.log(serverRam);
+
     // Validate the server name (should only contain letters and hyphens)
     if (!/^[a-zA-Z-]+$/.test(serverName)) {
       return res.render("create", { error: "Invalid server name (only letters and hyphens allowed)" });
