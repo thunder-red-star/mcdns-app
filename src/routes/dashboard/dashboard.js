@@ -61,7 +61,7 @@ module.exports = {
 			// Find server by id
 			const server = servers.find(server => server.id === parseInt(data.id));
 			// Find directory where server is located
-			const directory = path.join(global.config.server.directory, server.properties['level-name']);
+			const directory = path.join(global.config.minecraft.serversLocation, server.properties['level-name']);
 			// Start server
 			serverStart(directory);
 		});
@@ -79,6 +79,7 @@ module.exports = {
 			// Find server by id
 			const server = servers.find(server => server.id === parseInt(data.id));
 			// Find directory where server is located
+			const directory = path.join(global.config.minecraft.serversLocation, server.properties['level-name']);
 			// RCON command to stop server
 			rcon.send('stop').then((response) => {
 				socket.emit('rcon', response);
