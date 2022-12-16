@@ -27,77 +27,72 @@ module.exports = {
 		
 		// Render template
 		return res.render('dashboard', {server: minecraftServers[req.params.id - 1], motd: motd, online: online});
-	}, runOnAttach: async (expressServer) => {
-		// Create io from global.io
-		const io = global.io;
-		// On connection
-		io.on('connection', (socket) => {
-			// Connect to RCON server
-			global.logger.info("Someone connected to the RCON server");
-			let rcon = new RCON();
-			
-			socket.on('rcon', async (data) => {
-				serverId = data.id;
-				// Find server by id
-				const server = servers.find(server => server.id === parseInt(serverId));
-				// Server IP = global.config.server.fullyQualifiedDomainName + ":" + server.port
-				serverIP = '127.0.0.1';
-				try{
+	}, socketAction: async (socket, req) => {
+		// Connect to RCON server
+		global.logger.info("Someone connected to the RCON server");
+		let rcon = new RCON();
+
+		socket.on('rcon', async (data) => {
+			let serverId = data.id;
+			// Find server by id
+			const server = servers.find(server => server.id === parseInt(serverId));
+			// Server IP = global.config.server.fullyQualifiedDomainName + ":" + server.port
+			let serverIP = '127.0.0.1';
+			try{
 				rcon.connect(serverIP, server.properties['rcon.port'], server.properties['rcon.password']).then(() => {
-				    socket.emit('rcon', 'Connected to RCON server');
-				}).catch((err) => {
-				    socket.emit('rcon', err.stack);
-				});
-				} catch (e) {
-					socket.emit('rcon', e.stack);
-				}
-			});
-			// On command
-			socket.on('command', (command) => {
-				// Send command to RCON server
-				rcon.send(command.command).then((response) => {
-					socket.emit('rcon', response);
+					socket.emit('rcon', 'Connected to RCON server');
 				}).catch((err) => {
 					socket.emit('rcon', err.stack);
 				});
+			} catch (e) {
+				socket.emit('rcon', e.stack);
+			}
+		});
+		// On command
+		socket.on('command', (command) => {
+			// Send command to RCON server
+			rcon.send(command.command).then((response) => {
+				socket.emit('rcon', response);
+			}).catch((err) => {
+				socket.emit('rcon', err.stack);
 			});
-			socket.on('serverStart', (data) => {
-				// Find server by id
-				const server = servers.find(server => server.id === parseInt(data.id));
-				// Find directory where server is located
-				const directory = path.join(global.config.server.directory, server.properties['level-name']);
-				// Start server
+		});
+		socket.on('serverStart', (data) => {
+			// Find server by id
+			const server = servers.find(server => server.id === parseInt(data.id));
+			// Find directory where server is located
+			const directory = path.join(global.config.server.directory, server.properties['level-name']);
+			// Start server
+			serverStart(directory);
+		});
+		socket.on('serverStop', (data) => {
+			// Find server by id
+			const server = servers.find(server => server.id === parseInt(data.id));
+			// RCON command to stop server
+			rcon.send('stop').then((response) => {
+				socket.emit('rcon', response);
+			}).catch((err) => {
+				socket.emit('rcon', err.stack);
+			});
+		});
+		socket.on('serverRestart', (data) => {
+			// Find server by id
+			const server = servers.find(server => server.id === parseInt(data.id));
+			// Find directory where server is located
+			// RCON command to stop server
+			rcon.send('stop').then((response) => {
+				socket.emit('rcon', response);
+				// Restart server
 				serverStart(directory);
+			}).catch((err) => {
+				socket.emit('rcon', err.stack);
 			});
-			socket.on('serverStop', (data) => {
-				// Find server by id
-				const server = servers.find(server => server.id === parseInt(data.id));
-				// RCON command to stop server
-				rcon.send('stop').then((response) => {
-					socket.emit('rcon', response);
-				}).catch((err) => {
-					socket.emit('rcon', err.stack);
-				});
-			});
-			socket.on('serverRestart', (data) => {
-				// Find server by id
-				const server = servers.find(server => server.id === parseInt(data.id));
-				// Find directory where server is located
-				// RCON command to stop server
-				rcon.send('stop').then((response) => {
-					socket.emit('rcon', response);
-					// Restart server
-					serverStart(directory);
-				}).catch((err) => {
-					socket.emit('rcon', err.stack);
-				});
-			});
-			// On disconnect
-			socket.on('disconnect', () => {
-				// Disconnect from RCON server
-				rcon.destroy();
-				global.logger.info("Someone disconnected from the RCON server");
-			});
+		});
+		// On disconnect
+		socket.on('disconnect', () => {
+			// Disconnect from RCON server
+			rcon.destroy();
+			global.logger.info("Someone disconnected from the RCON server");
 		});
 	}
 }

@@ -30,5 +30,15 @@ module.exports = {
 				socket.emit('status', {id: server.id, online: response});
 			}
 		});
+		// Execute socket action when the page is opened.
+	}, socketAction: async (socket, req) => {
+		// Ping all Minecraft servers
+		for (let i = 0; i < global.servers.length; i++) {
+			const server = global.servers[i];
+			// Ping server
+			let response = serverUtils.online(server.ip, server.port);
+			// Send response to client
+			socket.emit('status', {id: server.id, online: response});
+		}
 	}
 }

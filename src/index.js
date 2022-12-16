@@ -22,7 +22,7 @@ global.config = globalConfig;
 // Local dependencies
 const getRoutes = require('./utils/getRoutes');
 const attachRoutes = require('./server/attachRoutes');
-
+const ioHandler = require('./server/ioHandler');
 
 // Enable middleware
 app.use(bodyParser.json());
@@ -44,6 +44,14 @@ global.io = io;
 
 let routes = getRoutes();
 attachRoutes(app, routes);
+
+io.on('connection', (socket, req) => {
+	  logger.log('Socket.io connection established');
+		ioHandler(socket, req, routes);
+		socket.on('disconnect', () => {
+				logger.log('Socket.io connection closed');
+		});
+});
 
 // Start the server
 const port = global.config.server.port || 3001;
