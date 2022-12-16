@@ -4,7 +4,7 @@ const serverStart = require('../../utils/serverStart');
 const motdParser = require('../../utils/parse/motd');
 const path = require('path');
 module.exports = {
-	name: 'index', path: '/dashboard/:id', enabled: true, method: 'get', ratelimit: {
+	name: 'dashboard', path: '/dashboard/:id', enabled: true, method: 'get', ratelimit: {
 		// The maximum number of requests that can be made in the time window
 		max: 100, // The time window in milliseconds
 		window: 1
@@ -27,7 +27,7 @@ module.exports = {
 		
 		// Render template
 		return res.render('dashboard', {server: minecraftServers[req.params.id - 1], motd: motd, online: online});
-	}, socketAction: async (socket, req) => {
+	}, socketAction: async (socket) => {
 		// Connect to RCON server
 		global.logger.info("Someone connected to the RCON server");
 		let rcon = new RCON();
