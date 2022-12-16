@@ -54,14 +54,14 @@
 			if (data.online === true) {
 				// Inner HTML will be a green circle (use tailwind css to make this!) and the text "Online"
                 let html = `
-                    <div class="w-4 h-4 rounded-full bg-green-500 inline-block"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-500 inline-block"></div>
   		    <div class="ml-2 text-green-500 font-semibold inline-block">Online</div>
                 `
                 document.getElementById("server-" + data.id + "-status").innerHTML = html;
 			} else {
 				// Inner HTML will be a red circle (use tailwind css to make this!) and the text "Offline"
                 let html = `
-                    <div class="w-4 h-4 rounded-full bg-red-500 inline-block"></div>
+                    <div class="w-3 h-3 rounded-full bg-red-500 inline-block"></div>
 		    <div class="ml-2 text-red-500 font-semibold inline-block">Offline</div>
                 `
                 document.getElementById("server-" + data.id + "-status").innerHTML = html;
