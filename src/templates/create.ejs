@@ -1,0 +1,38 @@
+
+<!-- Create server EJS template -->
+
+<html>
+<head>
+    <%- include('partials/head.ejs',
+        {
+	    pageTitle: 'Create Server',
+            pageDescription: 'Create a new Minecraft server'
+        }) 
+    %>
+</head>
+<body class="bg-gray-100 text-gray-900">
+    <!-- Form for Minecraft server creation: we want a server name, version (vanilla or paper and version number), port, RAM allocation, and a button to create the server -->
+    <!-- Should use Tailwind.css to make it look nice -->
+    <div class="container mx-auto">
+	<div class="flex flex-col items-center justify-center">
+	    <h1 class="text-4xl font-bold">Create a new Minecraft server</h1>
+	    <form action="/create-server" method="POST" class="flex flex-col items-center justify-center">
+		<label for="server-name" class="text-xl font-bold">Server Name</label>
+		<input type="text" name="server-name" id="server-name" class="border-2 border-gray-300 rounded-md p-2">
+		<label for="server-type" class="text-xl font-bold">Server Type</label>
+		<select name="server-type" id="server-type" class="border-2 border-gray-300 rounded-md p-2">
+		    <option value="vanilla">Vanilla</option>
+		    <option value="paper">Paper</option>
+		</select>
+		<label for="server-version" class="text-xl font-bold">Server Version</label>
+		<input type="text" name="server-version" id="server-version" class="border-2 border-gray-300 rounded-md p-2">
+		<label for="server-port" class="text-xl font-bold">Server Port</label>
+		<input type="text" name="server-port" id="server-port" class="border-2 border-gray-300 rounded-md p-2">
+		<label for="server-ram" class="text-xl font-bold">Server RAM</label>
+		<input type="text" name="server-ram" id="server-ram" class="border-2 border-gray-300 rounded-md p-2">
+		<button type="submit" class="bg-blue-500 text-white rounded-md p-2">Create Server</button>
+	    </form>
+	</div>
+    </div>
+</body>
+</html>
