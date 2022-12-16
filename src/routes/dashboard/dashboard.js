@@ -16,7 +16,7 @@ module.exports = {
 		const motd = motdParser.parse(server.properties['motd']);
 
 		// Check if the server is online
-		const isOnline = await minecraftServerUtil.status(server.ip, server.port).then(() => true).catch(() => false);
+		const isOnline = await minecraftServerUtil.status(server.ip, int(server.port)).then(() => true).catch(() => false);
 		
 		// Render template
 		return res.render('dashboard', {server: minecraftServers[req.params.id - 1], motd: motd, online: isOnline});
