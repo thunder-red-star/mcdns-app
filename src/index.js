@@ -46,10 +46,10 @@ let routes = getRoutes();
 attachRoutes(app, routes);
 
 io.on('connection', (socket, req) => {
-	  logger.log('Socket.io connection established');
+	  logger.info('Socket at ' + req.url + ' connected');
 		ioHandler(socket, req, routes);
 		socket.on('disconnect', () => {
-				logger.log('Socket.io connection closed');
+				logger.info('Socket at ' + req.url + ' disconnected');
 		});
 });
 
