@@ -102,9 +102,11 @@ module.exports = {
       // Download the server jar
       const response = await Axios.get(`https://launchermeta.mojang.com/mc/game/version_manifest.json`);
       const versions = response.data.versions;
+      console.log(versions);
       const version = versions.find(v => v.id === serverVersion);
       const serverUrl = version.url;
       const serverResponse = await Axios.get(serverUrl);
+      console.log(serverResponse.data);
       const serverDownloadUrl = serverResponse.data.downloads.server.url;
       const serverJar = await Axios.get(serverDownloadUrl);
       fs.writeFileSync(path.join(serverDirectory, 'server.jar'), serverJar.data);
