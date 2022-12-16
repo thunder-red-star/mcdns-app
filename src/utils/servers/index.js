@@ -106,28 +106,16 @@ module.exports = {
       const serverUrl = version.url;
       const serverResponse = await Axios.get(serverUrl);
       const serverDownloadUrl = serverResponse.data.downloads.server.url;
-      const serverJar = await Axios.get(serverDownloadUrl, { responseType: 'stream' });
-      serverJar.data.pipe(fs.createWriteStream(path.join(serverDirectory, 'server.jar')));
-      // Wait for the download to finish
-      await new Promise(resolve => {
-	serverJar.data.on('end', () => {
-	  resolve();
-	});
-      });
+      const serverJar = await Axios.get(serverDownloadUrl);
+      fs.writeFileSync(path.join(serverDirectory, 'server.jar'), serverJar.data);
     } else if (serverType === 'paper') {
       // Download the server jar
       const builds = await Axios.get(`https://api.papermc.io/v2/projects/paper/versions/${serverVersion}/builds`);
       // Choose the latest build
       const build = builds.data[builds.data.length - 1];
       const serverDownloadUrl = `https://papermc.io/api/v2/projects/paper/versions/${serverVersion}/builds/${build}/downloads/paper-${serverVersion}-${build}.jar`;
-      const serverJar = await Axios.get(serverDownloadUrl, { responseType: 'stream' });
-      serverJar.data.pipe(fs.createWriteStream(path.join(serverDirectory, 'server.jar')));
-      // Wait for the download to finish
-      await new Promise(resolve => {
-        serverJar.data.on('end', () => {
-	  resolve();
-	});
-      });
+      const serverJar = await Axios.get(serverDownloadUrl);
+      fs.writeFileSync(path.join(serverDirectory, 'server.jar'), serverJar.data);
     } else {
       // Unsupported server type
       global.logger.error(`Unsupported server type: ${serverType}`);
