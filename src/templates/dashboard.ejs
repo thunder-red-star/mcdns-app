@@ -154,6 +154,14 @@
 		socket.emit('serverStart', {
 			id: "<%- server.id %>"
 		});
+		// Create a noty saying that the server is starting and that it may take a while
+		new Noty({
+			type: 'success',
+			layout: 'topRight',
+			theme: 'nest',
+			text: 'Server is starting, please check back in a few minutes. If the server still hasn't started, your VM may be out of memory.',
+			timeout: 5000
+		}).show();
 	});
 
 	document.getElementById('serverStop').addEventListener('click', function (e) {
@@ -163,6 +171,14 @@
 		socket.emit('serverStop', {
 			id: "<%- server.id %>"
 		});
+		// Create a noty saying that the server is stopping and to refresh the page
+		new Noty({
+			type: 'success',
+			layout: 'topRight',
+			theme: 'nest',
+			text: 'Server is stopping, please refresh the page.',
+			timeout: 5000
+		}).show();
 	});
 
 	document.getElementById('serverRestart').addEventListener('click', function (e) {
@@ -172,6 +188,14 @@
 		socket.emit('serverRestart', {
 			id: "<%- server.id %>"
 		});
+		// Create a noty saying that the server is restarting and that it may take a while
+		new Noty({
+			type: 'success',
+			layout: 'topRight',
+			theme: 'nest',
+			text: 'Server is restarting, please check back in a few minutes. If the server still hasn't started, your VM may be out of memory.',
+			timeout: 5000
+		}).show();
 	});
 </script>
 </body>
