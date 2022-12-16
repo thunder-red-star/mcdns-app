@@ -24,7 +24,7 @@ module.exports = {
 				const server = {
 					name: parsedProperties['level-name'],
 					port: parsedProperties['server-port'],
-					ip: (() => { if (parsedProperties['server-ip'] === '') { return '127.0.0.1'; } else { return parsedProperties['server-ip']; } })(),
+					ip: (() => { if (parsedProperties['server-ip'] === '' || parsedProperties['server-ip'] === undefined) { return '127.0.0.1'; } else { return parsedProperties['server-ip']; } })(),
 					id: servers.length + 1,
 					properties: parsedProperties,
 				}
