@@ -58,8 +58,6 @@ module.exports = {
 			const response = await minecraftServerUtil.status(server.ip, parseInt(server.port), {timeout: 3000});
 			return true;
 		} catch (err) {
-			global.logger.error("Error while pinging server: " + err);
-			global.logger.logRaw(err.stack);
 			return false;
 		}
 	}
