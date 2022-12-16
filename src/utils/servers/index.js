@@ -21,6 +21,7 @@ module.exports = {
 				// Parse the properties
 				const parsedProperties = propertiesParser.parse(properties);
 				let ip;
+				print(parsedProperties['server-ip']);
 				if (parsedProperties['server-ip'] === '' || parsedProperties['server-ip'] === undefined) {
 					ip = '127.0.0.1';
 				} else {
