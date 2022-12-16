@@ -77,10 +77,12 @@ module.exports = {
     // Types: vanilla, paper
     // Create directory: global.config.minecraft.serversDirectory + / + serverName
     const serverDirectory = path.join(global.config.minecraft.serversLocation, serverName);
+    // Get this file's directory
+    const thisFileDirectory = path.dirname(__filename);
     // Create the directory
     fs.mkdirSync(serverDirectory);
     // Create server.properties by loading server.properties from the template directory and replacing the values
-    const templateProperties = fs.readFileSync('server.properties', 'utf8');
+    const templateProperties = fs.readFileSync(path.join(thisFileDirectory, "server.properties"), "utf8");
     const parsedProperties = propertiesParser.parse(templateProperties);
     parsedProperties['server-port'] = serverPort;
     parsedProperties['level-name'] = serverName;
@@ -91,7 +93,7 @@ module.exports = {
     // Create eula.txt
     fs.writeFileSync(path.join(serverDirectory, 'eula.txt'), 'eula=true');
     // Copy launch.sh to the server directory
-    fs.copyFileSync('launch.sh', path.join(serverDirectory, 'launch.sh'));
+    fs.copyFileSync(path.join(thisFileDirectory, 'launch.sh'), path.join(serverDirectory, 'launch.sh'));
     // Write a file called ramsize with the ram allocation
     fs.writeFileSync(path.join(serverDirectory, 'ramsize'), ramAlloc);
     
