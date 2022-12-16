@@ -82,7 +82,7 @@ module.exports = class RCON {
 				})
 				.on('drain', () => { this.drain(); })
 				.on('close', () => { this.authenticated = false; this.online = false; })
-				.on('error', error => { throw error; })
+				.on('error', error => { global.logger.error(error); reject(error); })
 				.setTimeout(this.timeout, () => {
 					this.socket.destroy();
 					reject(new Error(`Socket timed out when connecting to [${server}:${port}]`));
