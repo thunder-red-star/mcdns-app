@@ -76,7 +76,7 @@ module.exports = {
   create: async (serverName, serverPort, serverType, serverVersion, ramAlloc) => {
     // Types: vanilla, paper
     // Create directory: global.config.minecraft.serversDirectory + / + serverName
-    const serverDirectory = path.join(global.config.minecraft.serversDirectory, serverName);
+    const serverDirectory = path.join(global.config.minecraft.serversLocation, serverName);
     // Create the directory
     fs.mkdirSync(serverDirectory);
     // Create server.properties by loading server.properties from the template directory and replacing the values
