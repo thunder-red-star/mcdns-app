@@ -1,4 +1,6 @@
 const server = require('../../utils/servers/index.js');
+const fs = require('fs');
+const path = require('path');
 
 module.exports = {
   name: "create",
@@ -44,6 +46,11 @@ module.exports = {
     // Validate the server version (should be either "latest" or a valid Minecraft version)
     if (serverVersion !== "latest" && !/^[0-9]+\.[0-9]+\.[0-9]+$/.test(serverVersion)) {
       return res.render("create", { error: "Invalid server version (must be either latest or a valid Minecraft version)" });
+    }
+
+    // Check if server name and port are already in use
+    if (global.servers.find((s) => s.name === serverName || s.port === serverPort)) {
+      return res.render("create", { error: "Server name or port already in use" });
     }
 
     // Create a new server
