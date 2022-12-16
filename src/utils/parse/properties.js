@@ -26,7 +26,7 @@ module.exports = {
 			}
 			// Get the key and value
 			const key = line.split('=')[0];
-			const value = line.split('=')[1];
+			const value = line.split('=')[1].trim();
 			// Add the key and value to the properties object
 			props[key] = value;
 		}
