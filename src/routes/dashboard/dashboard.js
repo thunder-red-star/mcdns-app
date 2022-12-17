@@ -128,12 +128,11 @@ module.exports = {
         .send("stop")
         .then((response) => {
           // Delete server
-          servers.delete(server.name);
+          servers.delete(server);
         })
         .catch((err) => {
           socket.emit("rcon", err.stack);
         });
-      await servers.delete(server);
     });
     // On disconnect
     socket.on("disconnect", () => {

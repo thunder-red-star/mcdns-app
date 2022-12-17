@@ -122,9 +122,9 @@ module.exports = {
     }
   },
 
-  delete: async (serverName) => {
+  delete: async (server) => {
     // Delete the server directory
-    const serverDirectory = path.join(global.config.minecraft.serversLocation, serverName);
+    const serverDirectory = path.join(global.config.minecraft.serversLocation, server.name);
     fs.rmdirSync(serverDirectory, { recursive: true });
   }
 };
