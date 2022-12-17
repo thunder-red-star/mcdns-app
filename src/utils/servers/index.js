@@ -106,7 +106,7 @@ module.exports = {
       const serverUrl = version.url;
       const serverResponse = await Axios.get(serverUrl);
       const serverDownloadUrl = serverResponse.data.downloads.server.url;
-      const serverJar = await Axios.get(serverDownloadUrl);
+      const serverJar = await Axios.get(serverDownloadUrl, { responseType: 'arraybuffer' });
       fs.writeFileSync(path.join(serverDirectory, 'server.jar'), serverJar.data);
     } else if (serverType === 'paper') {
       // Download the server jar
@@ -114,7 +114,7 @@ module.exports = {
       // Choose the latest build
       const build = builds.data[builds.data.length - 1];
       const serverDownloadUrl = `https://papermc.io/api/v2/projects/paper/versions/${serverVersion}/builds/${build}/downloads/paper-${serverVersion}-${build}.jar`;
-      const serverJar = await Axios.get(serverDownloadUrl);
+      const serverJar = await Axios.get(serverDownloadUrl, { responseType: 'arraybuffer' });
       fs.writeFileSync(path.join(serverDirectory, 'server.jar'), serverJar.data);
     } else {
       // Unsupported server type
