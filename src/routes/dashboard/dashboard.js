@@ -119,6 +119,11 @@ module.exports = {
           socket.emit("rcon", err.stack);
         });
     });
+    socket.on("deleteServer", async (data) => {
+      // Find server by id
+      const server = servers.find((server) => server.id === parseInt(data.id));
+      await servers.delete(server);
+    });
     // On disconnect
     socket.on("disconnect", () => {
       // Disconnect from RCON server
