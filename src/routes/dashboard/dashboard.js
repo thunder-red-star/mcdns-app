@@ -18,7 +18,7 @@ module.exports = {
   handler: async (req, res) => {
     let minecraftServers = global.servers;
     // Make a request to the status API
-    const server = servers.find(
+    const server = minecraftServers.find(
       (server) => server.id === parseInt(req.params.id)
     );
     const motd = motdParser.parse(server.properties["motd"]);
@@ -44,7 +44,7 @@ module.exports = {
     socket.on("rcon", async (data) => {
       let serverId = data.id;
       // Find server by id
-      const server = servers.find((server) => server.id === parseInt(serverId));
+      const server = global.servers.find((server) => server.id === parseInt(serverId));
       // Server IP = global.config.server.fullyQualifiedDomainName + ":" + server.port
       let serverIP = "127.0.0.1";
       try {
@@ -78,7 +78,7 @@ module.exports = {
     });
     socket.on("serverStart", (data) => {
       // Find server by id
-      const server = servers.find((server) => server.id === parseInt(data.id));
+      const server = global.servers.find((server) => server.id === parseInt(data.id));
       // Find directory where server is located
       const directory = path.join(
         global.config.minecraft.serversLocation,
@@ -89,7 +89,7 @@ module.exports = {
     });
     socket.on("serverStop", (data) => {
       // Find server by id
-      const server = servers.find((server) => server.id === parseInt(data.id));
+      const server = global.servers.find((server) => server.id === parseInt(data.id));
       // RCON command to stop server
       rcon
         .send("stop")
@@ -102,7 +102,7 @@ module.exports = {
     });
     socket.on("serverRestart", (data) => {
       // Find server by id
-      const server = servers.find((server) => server.id === parseInt(data.id));
+      const server = global.servers.find((server) => server.id === parseInt(data.id));
       // Find directory where server is located
       const directory = path.join(
         global.config.minecraft.serversLocation,
@@ -122,7 +122,7 @@ module.exports = {
     });
     socket.on("deleteServer", async (data) => {
       // Find server by id
-      const server = servers.find((server) => server.id === parseInt(data.id));
+      const server = global.servers.find((server) => server.id === parseInt(data.id));
       // Send stop
       rcon
         .send("stop")
