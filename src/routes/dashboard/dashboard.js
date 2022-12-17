@@ -4,6 +4,7 @@ const serverStart = require("../../utils/serverStart");
 const motdParser = require("../../utils/parse/motd");
 const path = require("path");
 const minecraftServerUtil = require("minecraft-server-util");
+const servers = require("../../utils/servers/index");
 module.exports = {
   name: "dashboard",
   path: "/dashboard/:id",
