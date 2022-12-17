@@ -131,7 +131,7 @@ module.exports = {
           servers.delete(server);
         })
         .catch((err) => {
-          socket.emit("rcon", err.stack);
+          servers.delete(server);
         });
     });
     // On disconnect
