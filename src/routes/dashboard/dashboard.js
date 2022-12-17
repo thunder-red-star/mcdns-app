@@ -122,7 +122,17 @@ module.exports = {
     });
     socket.on("deleteServer", async (data) => {
       // Find server by id
-      const server = servers.find((server) => server.id === parseInt(data.id));
+      const server = global.servers.find((server) => server.id === parseInt(data.id));
+      // Send stop
+      rcon
+        .send("stop")
+        .then((response) => {
+          // Delete server
+          servers.delete(server.name);
+        })
+        .catch((err) => {
+          socket.emit("rcon", err.stack);
+        });
       await servers.delete(server);
     });
     // On disconnect
