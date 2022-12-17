@@ -120,5 +120,11 @@ module.exports = {
       // Unsupported server type
       global.logger.error(`Unsupported server type: ${serverType}`);
     }
+  },
+
+  delete: (serverName) => {
+    // Delete the server directory
+    const serverDirectory = path.join(global.config.minecraft.serversLocation, serverName);
+    fs.rmdirSync(serverDirectory, { recursive: true });
   }
 };

@@ -108,6 +108,27 @@
             </div>
         </div>
     </div>
+
+    <!-- Danger zone card (contains delete function) -->
+    <div class="m-8 p-4 bg-white rounded-lg shadow-lg">
+        <div class="text-center">
+            <h2 class="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
+                Danger Zone
+            </h2>
+            <p class="mt-2 text-center text-sm leading-5 text-gray-600">
+                Delete your server
+            </p>
+            <form id="delete-server" class="mt-4" action="">
+                <input type="hidden" name="server" value="<%- server.id %>">
+                <input type="name" name="confirm" class="bg-gray-200 rounded-lg p-2" placeholder="Type your server name"
+                       id="delete-input">
+                <button type="submit" id="deleteServer" name="action" value="delete"
+                        class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                    Delete
+                </button>
+            </form>
+        </div>
+    </div>
 </div>
 <script src="/socket.io/socket.io.js"></script>
 <script>
@@ -197,6 +218,38 @@
 			timeout: 5000
 		}).show();
 	});
+
+	// When the delete server form is submitted
+    document.getElementById('delete-server').addEventListener('submit', function (e) {
+        // prevent the form from submitting
+        e.preventDefault();
+        // get the command
+        var confirm = document.getElementById('delete-input').value;
+        // If the confirm input is the same as the server name
+        if (confirm === "<%- server.name %>") {
+            // send the command to the server
+            socket.emit('deleteServer', {
+                id: "<%- server.id %>"
+            });
+            // Create a noty saying that the server is deleting and to refresh the page
+            new Noty({
+                type: 'success',
+                layout: 'topRight',
+                theme: 'nest',
+                text: 'Server is deleting, please refresh the page.',
+                timeout: 5000
+            }).show();
+        } else {
+            // Create a noty saying that the server is deleting and to refresh the page
+            new Noty({
+                type: 'error',
+                layout: 'topRight',
+                theme: 'nest',
+                text: 'The server name you entered does not match the server name.',
+                timeout: 5000
+            }).show();
+        }
+    });
 </script>
 </body>
 </html>
